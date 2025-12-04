@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ICT Silver Bullet Strategy Code - Pine Script AI</title>
+    <meta name="description"
+        content="Get the complete Pine Script V6 code for the ICT Silver Bullet strategy. Optimized for TradingView with risk management included.">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Tailwind Typography Plugin (via CDN) -->
+    <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- Prism.js for Syntax Highlighting -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        gray: {
+                            850: '#1f2937',
+                            900: '#111827',
+                            950: '#030712', // Deep charcoal/black
+                        }
+                    },
+                    typography: (theme) => ({
+                        invert: {
+                            css: {
+                                '--tw-prose-body': theme('colors.gray.400'),
+                                '--tw-prose-headings': theme('colors.white'),
+                                '--tw-prose-links': theme('colors.blue.400'),
+                                '--tw-prose-bold': theme('colors.white'),
+                                '--tw-prose-code': theme('colors.white'),
+                                '--tw-prose-pre-bg': theme('colors.gray.900'),
+                                '--tw-prose-th-borders': theme('colors.gray.700'),
+                                '--tw-prose-td-borders': theme('colors.gray.800'),
+                            },
+                        },
+                    }),
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .glow-text {
+            text-shadow: 0 0 30px rgba(59, 130, 246, 0.4);
+        }
+
+        /* Hide scrollbar for Chrome, Safari and Opera */
+        ::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* Hide scrollbar for IE, Edge and Firefox */
+        html {
+            -ms-overflow-style: none;
+            /* IE and Edge */
+            scrollbar-width: none;
+            /* Firefox */
+        }
+
+        /* Custom Scrollbar for Code Blocks */
+        pre::-webkit-scrollbar {
+            display: block;
+            height: 8px;
+            background-color: #111827;
+        }
+
+        pre::-webkit-scrollbar-thumb {
+            background-color: #374151;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-950 text-white antialiased selection:bg-blue-500 selection:text-white flex flex-col min-h-screen">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 top-0 start-0 border-b border-gray-800 bg-gray-950/80 backdrop-blur-md">
+        <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between px-6 py-4">
+            <a href="index.html" class="flex items-center space-x-3 rtl:space-x-reverse group">
+                <!-- Logo -->
+                <img src="images/logo.png" alt="Pine Script AI Logo"
+                    class="w-8 h-8 rounded-lg shadow-lg group-hover:shadow-blue-500/20 transition-all">
+                <span class="self-center text-xl font-semibold whitespace-nowrap tracking-tight text-white">Pine Script
+                    AI</span>
+            </a>
+
+            <!-- Navbar Links -->
+            <div class="hidden md:flex items-center space-x-8">
+                <a href="blog.html" class="text-white font-medium transition-colors">Strategies & Blog</a>
+            </div>
+
+            <div class="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
+                <button type="button"
+                    class="text-white bg-blue-600 hover:bg-blue-500 focus:ring-4 focus:outline-none focus:ring-blue-800 font-medium rounded-full text-sm px-6 py-2.5 text-center transition-all duration-300 shadow-lg shadow-blue-900/20 hover:scale-105">
+                    Add to Chrome
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="pt-32 pb-20 flex-grow">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid lg:grid-cols-12 gap-12">
+
+                <!-- Left Column: Article Content (8 cols) -->
+                <article class="lg:col-span-8">
+                    <!-- Breadcrumb -->
+                    <div class="flex items-center space-x-2 text-sm text-gray-500 mb-6">
+                        <a href="index.html" class="hover:text-white transition-colors">Home</a>
+                        <span>/</span>
+                        <a href="blog.html" class="hover:text-white transition-colors">Strategies</a>
+                        <span>/</span>
+                        <span class="text-blue-400">ICT Silver Bullet</span>
+                    </div>
+
+                    <h1 class="text-3xl md:text-4xl lg:text-5xl font-extrabold text-white mb-8 leading-tight">
+                        ICT Silver Bullet Strategy Code <span class="text-blue-500">V6</span>
+                    </h1>
+
+                    <!-- Video Embed -->
+                    <div
+                        class="aspect-video w-full bg-gray-900 rounded-2xl overflow-hidden mb-10 border border-gray-800 shadow-2xl">
+                        <iframe class="w-full h-full" src="https://www.youtube.com/embed/dQw4w9WgXcQ?si=placeholder"
+                            title="YouTube video player" frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            allowfullscreen></iframe>
+                    </div>
+
+                    <!-- Article Body -->
+                    <div class="prose prose-invert prose-lg max-w-none">
+                        <p class="lead text-xl text-gray-300 mb-8">
+                            The ICT Silver Bullet is one of the most popular mechanical trading strategies. It relies on
+                            time-based liquidity sweeps and Fair Value Gaps (FVG) to identify high-probability entries.
+                        </p>
+
+                        <h3>Strategy Logic</h3>
+                        <p>
+                            This script automates the detection of the setup during the specific "Silver Bullet" hours
+                            (3 AM - 4 AM, 10 AM - 11 AM, and 2 PM - 3 PM NY time). It identifies:
+                        </p>
+                        <ul>
+                            <li>Liquidity sweeps of previous highs/lows.</li>
+                            <li>Market Structure Shifts (MSS).</li>
+                            <li>Return to Fair Value Gaps (FVG).</li>
+                        </ul>
+
+                        <h3>Pine Script V6 Code</h3>
+                        <p>
+                            Copy the code below and paste it into your TradingView Pine Editor.
+                        </p>
+                    </div>
+
+                    <!-- Code Block -->
+                    <div class="mt-8 relative group rounded-xl overflow-hidden border border-gray-800 bg-[#1d1f21]">
+                        <div class="flex justify-between items-center px-4 py-2 bg-gray-900 border-b border-gray-800">
+                            <span class="text-xs font-mono text-gray-400">ICT_Silver_Bullet.pine</span>
+                            <button onclick="copyCode()"
+                                class="text-xs bg-gray-800 hover:bg-gray-700 text-gray-300 px-3 py-1.5 rounded transition-colors flex items-center gap-2">
+                                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z">
+                                    </path>
+                                </svg>
+                                Copy Code
+                            </button>
+                        </div>
+                        <pre class="language-pine p-4 overflow-x-auto text-sm"><code id="strategyCode">// This source code is subject to the terms of the Mozilla Public License 2.0 at https://mozilla.org/MPL/2.0/
+// © PineScriptAI
+
+//@version=6
+strategy("ICT Silver Bullet [AI]", overlay=true, margin_long=100, margin_short=100)
+
+// --- Inputs ---
+sessionTime = input.session("1000-1100", "Silver Bullet Session (NY)")
+riskPerTrade = input.float(1.0, "Risk Per Trade %")
+
+// --- Logic Placeholder ---
+// This is a simplified example for demonstration.
+// Use the Pine Script AI extension to generate the full logic.
+
+isInSession = time(timeframe.period, sessionTime + ":1234567")
+bgcolor(isInSession ? color.new(color.blue, 90) : na)
+
+// ... (Full strategy code would go here) ...
+
+plot(close)</code></pre>
+                    </div>
+
+                    <div class="prose prose-invert prose-lg max-w-none mt-10">
+                        <h3>How to Optimize This Strategy</h3>
+                        <p>
+                            Raw strategies often fail due to slippage and lack of dynamic risk management. To make this
+                            strategy production-ready:
+                        </p>
+                        <ol>
+                            <li><strong>Add Commission Logic:</strong> Most backtests ignore fees.</li>
+                            <li><strong>Implement Dynamic Stops:</strong> Use ATR-based trailing stops.</li>
+                            <li><strong>Filter Choppy Markets:</strong> Add an ADX or Volume filter.</li>
+                        </ol>
+                        <p>
+                            You can do all of this automatically using our AI Co-pilot.
+                        </p>
+                    </div>
+                </article>
+
+                <!-- Right Sidebar: Sticky Conversion Box (4 cols) -->
+                <aside class="lg:col-span-4 space-y-8">
+
+                    <!-- Sticky Container -->
+                    <div class="sticky top-24 space-y-6">
+
+                        <!-- CTA Card -->
+                        <div
+                            class="p-6 bg-gradient-to-br from-blue-900/40 to-gray-900 border border-blue-500/30 rounded-2xl shadow-xl backdrop-blur-sm">
+                            <div
+                                class="w-12 h-12 bg-blue-600 rounded-lg flex items-center justify-center mb-4 shadow-lg shadow-blue-900/50">
+                                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                                </svg>
+                            </div>
+                            <h3 class="text-xl font-bold text-white mb-2">Fix & Upgrade This Code</h3>
+                            <p class="text-gray-300 text-sm mb-6 leading-relaxed">
+                                Raw code often has errors or outdated syntax. Use our AI Extension to auto-fix bugs and
+                                upgrade to Pine Script V6 instantly.
+                            </p>
+                            <button
+                                class="w-full py-3 px-4 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-xl transition-all shadow-lg shadow-blue-900/30 hover:scale-[1.02] flex items-center justify-center">
+                                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+                                </svg>
+                                Download Extension
+                            </button>
+                            <p class="text-center text-xs text-gray-500 mt-3">Free for Chrome & Brave</p>
+                        </div>
+
+                        <!-- Reality Check Warning -->
+                        <div class="p-6 bg-gray-900/80 border border-red-500/20 rounded-2xl">
+                            <div class="flex items-start space-x-3">
+                                <svg class="w-6 h-6 text-red-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z">
+                                    </path>
+                                </svg>
+                                <div>
+                                    <h4 class="text-white font-bold text-sm mb-1">Warning: Reality Check</h4>
+                                    <p class="text-gray-400 text-xs leading-relaxed">
+                                        This strategy may show unrealistic results without slippage correction. Use
+                                        <strong>Reality Mode™</strong> in the app to see true performance.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </aside>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-950 pt-20 pb-10 border-t border-gray-900">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="flex flex-col md:flex-row justify-between items-center mb-12">
+                <div class="flex items-center space-x-3 mb-6 md:mb-0">
+                    <img src="images/logo.png" alt="Pine Script AI Logo" class="w-10 h-10 rounded-lg shadow-lg">
+                    <span class="text-2xl font-bold text-white tracking-tight">Pine Script AI</span>
+                </div>
+                <div class="flex space-x-8">
+                    <a href="mailto:your@email.com"
+                        class="text-gray-400 hover:text-white transition-colors font-medium">Support</a>
+                    <a href="#" class="text-gray-400 hover:text-white transition-colors font-medium">Install Now</a>
+                </div>
+            </div>
+
+            <div class="border-t border-gray-900 pt-10">
+                <div class="text-sm text-gray-500 mb-8">
+                    <details class="group cursor-pointer">
+                        <summary class="list-none hover:text-gray-300 transition-colors flex items-center font-medium">
+                            <span>Privacy Policy</span>
+                            <svg class="w-4 h-4 ml-2 group-open:rotate-180 transition-transform text-gray-600"
+                                fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </summary>
+                        <div class="mt-4 p-6 bg-gray-900 rounded-xl border border-gray-800">
+                            <p class="leading-relaxed max-w-4xl text-gray-400">
+                                Privacy Policy: Pine Script AI Co-pilot does not store your personal data or your
+                                strategy code on our servers. User inputs are processed via Google Gemini API solely for
+                                the purpose of generating or fixing code. We do not sell or share user data with third
+                                parties. Your API Keys are stored locally on your device using Chrome Storage.
+                            </p>
+                        </div>
+                    </details>
+                </div>
+                <div class="flex flex-col md:flex-row justify-between items-center text-gray-600 text-sm">
+                    <p>&copy; 2025 Pine Script AI. All rights reserved.</p>
+                    <p class="mt-2 md:mt-0">Designed for TradingView Traders</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Prism.js Script -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-pine.min.js"></script>
+
+    <script>
+        function copyCode() {
+            const code = document.getElementById('strategyCode').innerText;
+            navigator.clipboard.writeText(code).then(() => {
+                alert('Code copied to clipboard!');
+            });
+        }
+    </script>
+
+</body>
+
+</html>
