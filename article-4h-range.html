@@ -4,9 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ICT Silver Bullet Strategy Code - Pine Script AI</title>
+    <title>4H Range Scalping Strategy - Pine Script AI</title>
     <meta name="description"
-        content="Get the complete Pine Script V6 code for the ICT Silver Bullet strategy. Optimized for TradingView with risk management included.">
+        content="Get the complete Pine Script V6 code for the 4H Range Scalping Strategy. Optimized for TradingView with risk management included.">
 
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -132,38 +132,40 @@
                         <span>/</span>
                         <a href="blog.html" class="hover:text-white transition-colors">Strategies</a>
                         <span>/</span>
-                        <span class="text-blue-400">ICT Silver Bullet</span>
+                        <span class="text-blue-400">4H Range Scalping</span>
                     </div>
 
                     <h1 class="text-3xl md:text-4xl lg:text-5xl font-extrabold text-white mb-8 leading-tight">
-                        ICT Silver Bullet Strategy Code <span class="text-blue-500">V6</span>
+                        4H Range Scalping Strategy <span class="text-blue-500">V6</span>
                     </h1>
 
                     <!-- Video Embed -->
                     <div
                         class="aspect-video w-full bg-gray-900 rounded-2xl overflow-hidden mb-10 border border-gray-800 shadow-2xl">
-                        <iframe class="w-full h-full" src="https://www.youtube.com/embed/dQw4w9WgXcQ?si=placeholder"
+                        <iframe class="w-full h-full" src="https://www.youtube-nocookie.com/embed/O5eC5lY7ZXY?start=223"
                             title="YouTube video player" frameborder="0"
                             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                            allowfullscreen></iframe>
+                            referrerpolicy="no-referrer" allowfullscreen></iframe>
                     </div>
 
                     <!-- Article Body -->
                     <div class="prose prose-invert prose-lg max-w-none">
                         <p class="lead text-xl text-gray-300 mb-8">
-                            The ICT Silver Bullet is one of the most popular mechanical trading strategies. It relies on
-                            time-based liquidity sweeps and Fair Value Gaps (FVG) to identify high-probability entries.
+                            This strategy defines a trading range based on the first 4-hour candle of the day and looks
+                            for breakouts followed by re-entries (fakeouts) to scalp the market.
                         </p>
 
                         <h3>Strategy Logic</h3>
                         <p>
-                            This script automates the detection of the setup during the specific "Silver Bullet" hours
-                            (3 AM - 4 AM, 10 AM - 11 AM, and 2 PM - 3 PM NY time). It identifies:
+                            The strategy operates on a 5-minute chart but uses the first 4 hours of the day (e.g., NY
+                            Midnight to 4 AM) to establish a High and Low range.
                         </p>
                         <ul>
-                            <li>Liquidity sweeps of previous highs/lows.</li>
-                            <li>Market Structure Shifts (MSS).</li>
-                            <li>Return to Fair Value Gaps (FVG).</li>
+                            <li><strong>Short Setup:</strong> Price breaks ABOVE the range high, then closes back INSIDE
+                                the range.</li>
+                            <li><strong>Long Setup:</strong> Price breaks BELOW the range low, then closes back INSIDE
+                                the range.</li>
+                            <li><strong>Risk Management:</strong> Uses a fixed Risk/Reward ratio (default 2.0).</li>
                         </ul>
 
                         <h3>Pine Script V6 Code</h3>
@@ -175,7 +177,7 @@
                     <!-- Code Block -->
                     <div class="mt-8 relative group rounded-xl overflow-hidden border border-gray-800 bg-[#1d1f21]">
                         <div class="flex justify-between items-center px-4 py-2 bg-gray-900 border-b border-gray-800">
-                            <span class="text-xs font-mono text-gray-400">ICT_Silver_Bullet.pine</span>
+                            <span class="text-xs font-mono text-gray-400">4H_Range_Scalping.pine</span>
                             <button onclick="copyCode()"
                                 class="text-xs bg-gray-800 hover:bg-gray-700 text-gray-300 px-3 py-1.5 rounded transition-colors flex items-center gap-2">
                                 <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -186,26 +188,159 @@
                                 Copy Code
                             </button>
                         </div>
-                        <pre class="language-pine p-4 overflow-x-auto text-sm"><code id="strategyCode">// This source code is subject to the terms of the Mozilla Public License 2.0 at https://mozilla.org/MPL/2.0/
-// © PineScriptAI
+                        <pre
+                            class="language-pine p-4 overflow-x-auto text-sm"><code id="strategyCode">//@version=6
+strategy("4H Range Scalping Strategy", overlay=true, initial_capital=1000, default_qty_type=strategy.percent_of_equity, default_qty_value=2, currency=currency.USD)
 
-//@version=6
-strategy("ICT Silver Bullet [AI]", overlay=true, margin_long=100, margin_short=100)
+// ==========================================
+// 1. USER INPUTS
+// ==========================================
+// Risk Management
+input_rr = input.float(2.0, "Risk/Reward Ratio", minval=0.1, step=0.1, tooltip="Target profit relative to Stop Loss size.")
 
-// --- Inputs ---
-sessionTime = input.session("1000-1100", "Silver Bullet Session (NY)")
-riskPerTrade = input.float(1.0, "Risk Per Trade %")
+// Session Settings
+input_start_hour = input.int(0, "Session Start Hour (NY Time)", minval=0, maxval=23, tooltip="Start hour of the first 4H candle (0 = 00:00).")
+input_ny_timezone = input.string("America/New_York", "Timezone", options=["America/New_York", "UTC", "Europe/London"])
 
-// --- Logic Placeholder ---
-// This is a simplified example for demonstration.
-// Use the Pine Script AI extension to generate the full logic.
+// Visuals
+input_show_range = input.bool(true, "Show Range Lines")
+input_color_high = input.color(color.red, "Range High Color")
+input_color_low = input.color(color.green, "Range Low Color")
 
-isInSession = time(timeframe.period, sessionTime + ":1234567")
-bgcolor(isInSession ? color.new(color.blue, 90) : na)
+// ==========================================
+// 2. TIME MANAGEMENT & RANGE DEFINITION
+// ==========================================
+// Get current time components in the target timezone
+current_hour   = hour(time, input_ny_timezone)
+current_minute = minute(time, input_ny_timezone)
 
-// ... (Full strategy code would go here) ...
+// Define the 4-Hour Formation Period
+// The strategy relies on the FIRST 4-hour candle of the day.
+// If start is 00:00, formation is 00:00 to 03:59.
+formation_end_hour = input_start_hour + 4
+is_formation_period = (current_hour >= input_start_hour) and (current_hour < formation_end_hour)
 
-plot(close)</code></pre>
+// State Variables to store the Range High/Low for the day
+var float day_range_high = na
+var float day_range_low  = na
+
+// Temporary variables to track High/Low DURING the formation period
+var float temp_high = na
+var float temp_low  = na
+
+// Detect start of a new day/session to reset variables
+is_new_session = (current_hour == input_start_hour) and (current_minute == 0)
+
+if is_new_session
+    // Reset everything for the new day
+    day_range_high := na
+    day_range_low  := na
+    temp_high      := high
+    temp_low       := low
+else if is_formation_period
+    // Continuously update the high/low during the first 4 hours
+    temp_high := math.max(nz(temp_high, high), high)
+    temp_low  := math.min(nz(temp_low, low), low)
+
+// Lock the Range after the formation period ends
+// We check if we have just finished the formation period
+if not is_formation_period and na(day_range_high) and not na(temp_high)
+    day_range_high := temp_high
+    day_range_low  := temp_low
+
+// ==========================================
+// 3. STRATEGY LOGIC & EXECUTION
+// ==========================================
+
+// Variables to track Breakout State (Fakeout detection)
+var bool is_above_range = false
+var bool is_below_range = false
+var float breakout_extreme_high = na
+var float breakout_extreme_low  = na
+
+// Reset breakout states on new session
+if is_new_session
+    is_above_range := false
+    is_below_range := false
+    breakout_extreme_high := na
+    breakout_extreme_low  := na
+
+// Only trade if the range is defined and we are outside the formation period
+can_trade = not na(day_range_high) and not is_formation_period
+
+// --- Short Setup Logic ---
+// 1. Price must be ABOVE range (Breakout)
+// 2. Then Price must Close INSIDE range (Re-entry)
+
+if can_trade
+    // Check if price is currently above the range
+    if close > day_range_high
+        is_above_range := true
+        // Track the highest point reached during this breakout
+        breakout_extreme_high := math.max(nz(breakout_extreme_high, high), high)
+    
+    // Check for Re-entry (Signal)
+    else if is_above_range and close < day_range_high
+        // CONDITION MET: Breakout High -> Closed Back Inside
+        
+        // Update extreme one last time for the current signal candle
+        float final_sl_price = math.max(nz(breakout_extreme_high, high), high)
+        float entry_price = close
+        float risk = final_sl_price - entry_price
+        float target_price = entry_price - (risk * input_rr)
+
+        // Execute Short
+        if risk > 0
+            strategy.entry("Short", strategy.short, comment="Re-entry Short")
+            strategy.exit("Exit Short", "Short", stop=final_sl_price, limit=target_price)
+        
+        // Reset state
+        is_above_range := false
+        breakout_extreme_high := na
+
+// --- Long Setup Logic ---
+// 1. Price must be BELOW range (Breakout)
+// 2. Then Price must Close INSIDE range (Re-entry)
+
+if can_trade
+    // Check if price is currently below the range
+    if close < day_range_low
+        is_below_range := true
+        // Track the lowest point reached during this breakout
+        breakout_extreme_low := math.min(nz(breakout_extreme_low, low), low)
+    
+    // Check for Re-entry (Signal)
+    else if is_below_range and close > day_range_low
+        // CONDITION MET: Breakout Low -> Closed Back Inside
+        
+        // Update extreme one last time
+        float final_sl_price = math.min(nz(breakout_extreme_low, low), low)
+        float entry_price = close
+        float risk = entry_price - final_sl_price
+        float target_price = entry_price + (risk * input_rr)
+
+        // Execute Long
+        if risk > 0
+            strategy.entry("Long", strategy.long, comment="Re-entry Long")
+            strategy.exit("Exit Long", "Long", stop=final_sl_price, limit=target_price)
+        
+        // Reset state
+        is_below_range := false
+        breakout_extreme_low := na
+
+// ==========================================
+// 4. VISUALIZATION
+// ==========================================
+// Plot Range Lines
+plot(input_show_range and not is_formation_period ? day_range_high : na, "Range High", color=input_color_high, style=plot.style_linebr, linewidth=2)
+plot(input_show_range and not is_formation_period ? day_range_low : na, "Range Low", color=input_color_low, style=plot.style_linebr, linewidth=2)
+
+// Highlight Formation Period Background
+bgcolor(is_formation_period ? color.new(color.blue, 90) : na, title="Formation Period")
+
+// Plot Signals
+plotshape(series=not is_above_range[1] and is_above_range, title="Breakout High Started", location=location.abovebar, color=color.new(color.red, 80), style=shape.triangledown, size=size.tiny)
+plotshape(series=not is_below_range[1] and is_below_range, title="Breakout Low Started", location=location.belowbar, color=color.new(color.green, 80), style=shape.triangleup, size=size.tiny)</code></pre>
                     </div>
 
                     <div class="prose prose-invert prose-lg max-w-none mt-10">

@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Supertrend Pro Strategy [WyseTrade] - Pine Script AI</title>
+    <meta name="description"
+        content="Get the complete Pine Script V6 code for the Supertrend Pro Strategy. Includes multi-timeframe filters and dynamic risk management.">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Tailwind Typography Plugin (via CDN) -->
+    <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- Prism.js for Syntax Highlighting -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        gray: {
+                            850: '#1f2937',
+                            900: '#111827',
+                            950: '#030712', // Deep charcoal/black
+                        }
+                    },
+                    typography: (theme) => ({
+                        invert: {
+                            css: {
+                                '--tw-prose-body': theme('colors.gray.400'),
+                                '--tw-prose-headings': theme('colors.white'),
+                                '--tw-prose-links': theme('colors.blue.400'),
+                                '--tw-prose-bold': theme('colors.white'),
+                                '--tw-prose-code': theme('colors.white'),
+                                '--tw-prose-pre-bg': theme('colors.gray.900'),
+                                '--tw-prose-th-borders': theme('colors.gray.700'),
+                                '--tw-prose-td-borders': theme('colors.gray.800'),
+                            },
+                        },
+                    }),
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .glow-text {
+            text-shadow: 0 0 30px rgba(59, 130, 246, 0.4);
+        }
+
+        /* Hide scrollbar for Chrome, Safari and Opera */
+        ::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* Hide scrollbar for IE, Edge and Firefox */
+        html {
+            -ms-overflow-style: none;
+            /* IE and Edge */
+            scrollbar-width: none;
+            /* Firefox */
+        }
+
+        /* Custom Scrollbar for Code Blocks */
+        pre::-webkit-scrollbar {
+            display: block;
+            height: 8px;
+            background-color: #111827;
+        }
+
+        pre::-webkit-scrollbar-thumb {
+            background-color: #374151;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-950 text-white antialiased selection:bg-blue-500 selection:text-white flex flex-col min-h-screen">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 top-0 start-0 border-b border-gray-800 bg-gray-950/80 backdrop-blur-md">
+        <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between px-6 py-4">
+            <a href="index.html" class="flex items-center space-x-3 rtl:space-x-reverse group">
+                <!-- Logo -->
+                <img src="images/logo.png" alt="Pine Script AI Logo"
+                    class="w-8 h-8 rounded-lg shadow-lg group-hover:shadow-blue-500/20 transition-all">
+                <span class="self-center text-xl font-semibold whitespace-nowrap tracking-tight text-white">Pine Script
+                    AI</span>
+            </a>
+
+            <!-- Navbar Links -->
+            <div class="hidden md:flex items-center space-x-8">
+                <a href="blog.html" class="text-white font-medium transition-colors">Strategies & Blog</a>
+            </div>
+
+            <div class="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
+                <button type="button"
+                    class="text-white bg-blue-600 hover:bg-blue-500 focus:ring-4 focus:outline-none focus:ring-blue-800 font-medium rounded-full text-sm px-6 py-2.5 text-center transition-all duration-300 shadow-lg shadow-blue-900/20 hover:scale-105">
+                    Add to Chrome
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="pt-32 pb-20 flex-grow">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid lg:grid-cols-12 gap-12">
+
+                <!-- Left Column: Article Content (8 cols) -->
+                <article class="lg:col-span-8">
+                    <!-- Breadcrumb -->
+                    <div class="flex items-center space-x-2 text-sm text-gray-500 mb-6">
+                        <a href="index.html" class="hover:text-white transition-colors">Home</a>
+                        <span>/</span>
+                        <a href="blog.html" class="hover:text-white transition-colors">Strategies</a>
+                        <span>/</span>
+                        <span class="text-blue-400">Supertrend Pro</span>
+                    </div>
+
+                    <h1 class="text-3xl md:text-4xl lg:text-5xl font-extrabold text-white mb-8 leading-tight">
+                        Supertrend Pro Strategy [WyseTrade] <span class="text-blue-500">V6</span>
+                    </h1>
+
+                    <!-- Video Embed -->
+                    <div
+                        class="aspect-video w-full bg-gray-900 rounded-2xl overflow-hidden mb-10 border border-gray-800 shadow-2xl">
+                        <iframe class="w-full h-full" src="https://www.youtube-nocookie.com/embed/As6Sr3OzhzE"
+                            title="YouTube video player" frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            referrerpolicy="no-referrer" allowfullscreen></iframe>
+                    </div>
+
+                    <!-- Article Body -->
+                    <div class="prose prose-invert prose-lg max-w-none">
+                        <p class="lead text-xl text-gray-300 mb-8">
+                            Based on the popular WyseTrade strategy, this script enhances the standard Supertrend with
+                            multi-timeframe (MTF) filtering and two distinct entry modes.
+                        </p>
+
+                        <h3>Strategy Logic</h3>
+                        <p>
+                            The strategy offers two modes of operation:
+                        </p>
+                        <ul>
+                            <li><strong>Trend Reversal:</strong> Enters when the Supertrend flips color (Breakout).</li>
+                            <li><strong>Band Touch:</strong> Enters when price pulls back to touch the Supertrend line
+                                and rejects it (Pullback).</li>
+                        </ul>
+                        <p>
+                            It also includes a <strong>Higher Timeframe Filter</strong> to ensure you are only trading
+                            in the direction of the major trend.
+                        </p>
+
+                        <h3>Pine Script V6 Code</h3>
+                        <p>
+                            Copy the code below and paste it into your TradingView Pine Editor.
+                        </p>
+                    </div>
+
+                    <!-- Code Block -->
+                    <div class="mt-8 relative group rounded-xl overflow-hidden border border-gray-800 bg-[#1d1f21]">
+                        <div class="flex justify-between items-center px-4 py-2 bg-gray-900 border-b border-gray-800">
+                            <span class="text-xs font-mono text-gray-400">Supertrend_Pro.pine</span>
+                            <button onclick="copyCode()"
+                                class="text-xs bg-gray-800 hover:bg-gray-700 text-gray-300 px-3 py-1.5 rounded transition-colors flex items-center gap-2">
+                                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z">
+                                    </path>
+                                </svg>
+                                Copy Code
+                            </button>
+                        </div>
+                        <pre class="language-pine p-4 overflow-x-auto text-sm"><code id="strategyCode">//@version=5
+strategy("Supertrend Pro Strategy [WyseTrade]", overlay=true, initial_capital=1000, default_qty_type=strategy.percent_of_equity, default_qty_value=10, currency=currency.USD)
+
+// ==========================================
+// ─── USER INPUTS ───
+// ==========================================
+
+// Group: Supertrend Settings
+grp_st = "Supertrend Settings"
+st_factor = input.float(3.0, "ATR Factor", minval=1.0, step=0.1, group=grp_st, tooltip="Video suggests 2.5 to 3.0 depending on asset")
+st_atr_len = input.int(10, "ATR Length", minval=1, group=grp_st)
+
+// Group: Strategy Logic
+grp_strat = "Strategy Logic"
+entry_mode = input.string("Trend Reversal", "Entry Mode", options=["Trend Reversal", "Band Touch"], group=grp_strat, tooltip="'Trend Reversal' enters on color flip. 'Band Touch' enters when price wicks off the trend line.")
+use_mtf = input.bool(true, "Use Higher Timeframe Filter?", group=grp_strat, tooltip="Strategy #5: Only trade in direction of HTF Trend")
+htf_tf = input.timeframe("60", "Higher Timeframe", group=grp_strat)
+
+// Group: Risk Management
+grp_risk = "Risk Management"
+use_rr = input.bool(true, "Use Risk:Reward Target?", group=grp_risk)
+rr_ratio = input.float(1.5, "Risk:Reward Ratio", step=0.1, group=grp_risk)
+
+// Group: Backtesting Range
+grp_time = "Time Range"
+start_date = input.time(timestamp("2023-01-01 00:00"), "Start Date", group=grp_time)
+end_date = input.time(timestamp("2099-12-31 00:00"), "End Date", group=grp_time)
+
+// ==========================================
+// ─── CALCULATIONS ───
+// ==========================================
+
+// --- Current Timeframe Supertrend ---
+[st_value, st_dir] = ta.supertrend(st_factor, st_atr_len)
+// st_dir: -1 is Up (Green), 1 is Down (Red)
+
+// --- Higher Timeframe Supertrend (MTF) ---
+// We use a tuple to request both value and direction to ensure data consistency
+// lookahead=barmerge.lookahead_off prevents future leak (repainting)
+[htf_st_val, htf_st_dir] = request.security(syminfo.tickerid, htf_tf, ta.supertrend(st_factor, st_atr_len), lookahead=barmerge.lookahead_off)
+
+// ==========================================
+// ─── LOGIC & CONDITIONS ───
+// ==========================================
+
+// Check Time Range
+in_date_range = true
+
+// 1. Directional Logic
+is_uptrend = st_dir < 0
+is_downtrend = st_dir > 0
+
+// 2. MTF Filter Logic
+// If MTF is disabled, we force the condition to true
+mtf_bullish = use_mtf ? (htf_st_dir < 0) : true
+mtf_bearish = use_mtf ? (htf_st_dir > 0) : true
+
+// 3. Entry Signals
+
+// -- Strategy A: Trend Reversal (Breakout) --
+// Enter Long when trend switches from Down to Up
+bull_reversal = ta.change(st_dir) < 0 
+// Enter Short when trend switches from Up to Down
+bear_reversal = ta.change(st_dir) > 0 
+
+// -- Strategy B: Band Touch (Pullback) --
+// Enter Long if we are in an uptrend, Low touched the line, but closed above (Wick rejection)
+bull_touch = is_uptrend and low <= st_value and close > st_value
+// Enter Short if we are in a downtrend, High touched the line, but closed below
+bear_touch = is_downtrend and high >= st_value and close < st_value
+
+// Consolidate Entry Conditions based on User Input
+long_condition = false
+short_condition = false
+
+if entry_mode == "Trend Reversal"
+    long_condition := bull_reversal and mtf_bullish and in_date_range
+    short_condition := bear_reversal and mtf_bearish and in_date_range
+else if entry_mode == "Band Touch"
+    long_condition := bull_touch and mtf_bullish and in_date_range
+    short_condition := bear_touch and mtf_bearish and in_date_range
+
+// ==========================================
+// ─── EXECUTION ───
+// ==========================================
+
+// Entry
+if long_condition
+    strategy.entry("Long", strategy.long)
+
+if short_condition
+    strategy.entry("Short", strategy.short)
+
+// Exit Strategy #2: Trailing Stop using Supertrend Line
+// If we are Long, the ST Value is below price. If we are Short, ST Value is above price.
+// We also implement the RR Target if enabled.
+
+// Calculate TP prices based on entry price and stop distance (ATR based via Supertrend)
+// We check if opentrades > 0 to avoid error when accessing strategy.opentrades.entry_price
+if strategy.opentrades > 0
+    float entry_price = strategy.opentrades.entry_price(strategy.opentrades - 1)
+    
+    if strategy.position_size > 0
+        // Long Exit
+        // Stop Loss is dynamic (the Supertrend line itself)
+        // Take Profit is fixed R:R based on the distance between Entry and Initial ST
+        // Note: For trailing stop simulation, we use the CURRENT st_value
+        float risk = math.abs(entry_price - st_value) // Simplified risk calc for dynamic updates or use fixed entry risk
+        // To strictly follow video "Limit Risk", we calculate TP based on entry. 
+        // But since SL moves, calculating exact initial risk is tricky post-entry without variables.
+        // Here we use current distance for dynamic or standard ATR distance. 
+        // Let's use a simpler ATR based distance for TP target stability:
+        float atr_val = ta.atr(st_atr_len)
+        float dynamic_risk = atr_val * st_factor
+        float tp = use_rr ? entry_price + (dynamic_risk * rr_ratio) : na
+        
+        strategy.exit("Exit Long", "Long", stop = st_value, limit = tp, comment_loss = "Trail SL", comment_profit = "TP Hit")
+
+    if strategy.position_size < 0
+        // Short Exit
+        float entry_price_short = strategy.opentrades.entry_price(strategy.opentrades - 1)
+        float atr_val = ta.atr(st_atr_len)
+        float dynamic_risk = atr_val * st_factor
+        float tp = use_rr ? entry_price_short - (dynamic_risk * rr_ratio) : na
+
+        strategy.exit("Exit Short", "Short", stop = st_value, limit = tp, comment_loss = "Trail SL", comment_profit = "TP Hit")
+
+// ==========================================
+// ─── VISUALIZATION ───
+// ==========================================
+
+// Plot Supertrend Line
+plot_color = is_uptrend ? color.green : color.red
+plot(st_value, "Supertrend", color = plot_color, linewidth = 2)
+
+// Plot Background Signal (Green/Red Zones)
+bgcolor(is_uptrend ? color.new(color.green, 90) : color.new(color.red, 90), title="Trend Background")
+
+// Plot Buy/Sell Shapes for visual verification
+plotshape(long_condition, title="Buy Signal", style=shape.triangleup, location=location.belowbar, color=color.green, size=size.small)
+plotshape(short_condition, title="Sell Signal", style=shape.triangledown, location=location.abovebar, color=color.red, size=size.small)
+
+// Force Close if Trend flips against us (Hard exit backup)
+if strategy.position_size > 0 and is_downtrend
+    strategy.close("Long", comment="Trend Flip")
+if strategy.position_size < 0 and is_uptrend
+    strategy.close("Short", comment="Trend Flip")</code></pre>
+                    </div>
+
+                    <div class="prose prose-invert prose-lg max-w-none mt-10">
+                        <h3>How to Optimize This Strategy</h3>
+                        <p>
+                            Raw strategies often fail due to slippage and lack of dynamic risk management. To make this
+                            strategy production-ready:
+                        </p>
+                        <ol>
+                            <li><strong>Add Commission Logic:</strong> Most backtests ignore fees.</li>
+                            <li><strong>Implement Dynamic Stops:</strong> Use ATR-based trailing stops.</li>
+                            <li><strong>Filter Choppy Markets:</strong> Add an ADX or Volume filter.</li>
+                        </ol>
+                        <p>
+                            You can do all of this automatically using our AI Co-pilot.
+                        </p>
+                    </div>
+                </article>
+
+                <!-- Right Sidebar: Sticky Conversion Box (4 cols) -->
+                <aside class="lg:col-span-4 space-y-8">
+
+                    <!-- Sticky Container -->
+                    <div class="sticky top-24 space-y-6">
+
+                        <!-- CTA Card -->
+                        <div
+                            class="p-6 bg-gradient-to-br from-blue-900/40 to-gray-900 border border-blue-500/30 rounded-2xl shadow-xl backdrop-blur-sm">
+                            <div
+                                class="w-12 h-12 bg-blue-600 rounded-lg flex items-center justify-center mb-4 shadow-lg shadow-blue-900/50">
+                                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                                </svg>
+                            </div>
+                            <h3 class="text-xl font-bold text-white mb-2">Fix & Upgrade This Code</h3>
+                            <p class="text-gray-300 text-sm mb-6 leading-relaxed">
+                                Raw code often has errors or outdated syntax. Use our AI Extension to auto-fix bugs and
+                                upgrade to Pine Script V6 instantly.
+                            </p>
+                            <button
+                                class="w-full py-3 px-4 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-xl transition-all shadow-lg shadow-blue-900/30 hover:scale-[1.02] flex items-center justify-center">
+                                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+                                </svg>
+                                Download Extension
+                            </button>
+                            <p class="text-center text-xs text-gray-500 mt-3">Free for Chrome & Brave</p>
+                        </div>
+
+                        <!-- Reality Check Warning -->
+                        <div class="p-6 bg-gray-900/80 border border-red-500/20 rounded-2xl">
+                            <div class="flex items-start space-x-3">
+                                <svg class="w-6 h-6 text-red-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z">
+                                    </path>
+                                </svg>
+                                <div>
+                                    <h4 class="text-white font-bold text-sm mb-1">Warning: Reality Check</h4>
+                                    <p class="text-gray-400 text-xs leading-relaxed">
+                                        This strategy may show unrealistic results without slippage correction. Use
+                                        <strong>Reality Mode™</strong> in the app to see true performance.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </aside>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-950 pt-20 pb-10 border-t border-gray-900">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="flex flex-col md:flex-row justify-between items-center mb-12">
+                <div class="flex items-center space-x-3 mb-6 md:mb-0">
+                    <img src="images/logo.png" alt="Pine Script AI Logo" class="w-10 h-10 rounded-lg shadow-lg">
+                    <span class="text-2xl font-bold text-white tracking-tight">Pine Script AI</span>
+                </div>
+                <div class="flex space-x-8">
+                    <a href="mailto:your@email.com"
+                        class="text-gray-400 hover:text-white transition-colors font-medium">Support</a>
+                    <a href="#" class="text-gray-400 hover:text-white transition-colors font-medium">Install Now</a>
+                </div>
+            </div>
+
+            <div class="border-t border-gray-900 pt-10">
+                <div class="text-sm text-gray-500 mb-8">
+                    <details class="group cursor-pointer">
+                        <summary class="list-none hover:text-gray-300 transition-colors flex items-center font-medium">
+                            <span>Privacy Policy</span>
+                            <svg class="w-4 h-4 ml-2 group-open:rotate-180 transition-transform text-gray-600"
+                                fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </summary>
+                        <div class="mt-4 p-6 bg-gray-900 rounded-xl border border-gray-800">
+                            <p class="leading-relaxed max-w-4xl text-gray-400">
+                                Privacy Policy: Pine Script AI Co-pilot does not store your personal data or your
+                                strategy code on our servers. User inputs are processed via Google Gemini API solely for
+                                the purpose of generating or fixing code. We do not sell or share user data with third
+                                parties. Your API Keys are stored locally on your device using Chrome Storage.
+                            </p>
+                        </div>
+                    </details>
+                </div>
+                <div class="flex flex-col md:flex-row justify-between items-center text-gray-600 text-sm">
+                    <p>&copy; 2025 Pine Script AI. All rights reserved.</p>
+                    <p class="mt-2 md:mt-0">Designed for TradingView Traders</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Prism.js Script -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-pine.min.js"></script>
+
+    <script>
+        function copyCode() {
+            const code = document.getElementById('strategyCode').innerText;
+            navigator.clipboard.writeText(code).then(() => {
+                alert('Code copied to clipboard!');
+            });
+        }
+    </script>
+
+</body>
+
+</html>

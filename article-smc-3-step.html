@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SMC 3-Step Strategy [A+ Setup] - Pine Script AI</title>
+    <meta name="description"
+        content="Get the complete Pine Script V6 code for the SMC 3-Step Strategy. Non-repainting logic with liquidity sweeps and structure breaks.">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Tailwind Typography Plugin (via CDN) -->
+    <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- Prism.js for Syntax Highlighting -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        gray: {
+                            850: '#1f2937',
+                            900: '#111827',
+                            950: '#030712', // Deep charcoal/black
+                        }
+                    },
+                    typography: (theme) => ({
+                        invert: {
+                            css: {
+                                '--tw-prose-body': theme('colors.gray.400'),
+                                '--tw-prose-headings': theme('colors.white'),
+                                '--tw-prose-links': theme('colors.blue.400'),
+                                '--tw-prose-bold': theme('colors.white'),
+                                '--tw-prose-code': theme('colors.white'),
+                                '--tw-prose-pre-bg': theme('colors.gray.900'),
+                                '--tw-prose-th-borders': theme('colors.gray.700'),
+                                '--tw-prose-td-borders': theme('colors.gray.800'),
+                            },
+                        },
+                    }),
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .glow-text {
+            text-shadow: 0 0 30px rgba(59, 130, 246, 0.4);
+        }
+
+        /* Hide scrollbar for Chrome, Safari and Opera */
+        ::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* Hide scrollbar for IE, Edge and Firefox */
+        html {
+            -ms-overflow-style: none;
+            /* IE and Edge */
+            scrollbar-width: none;
+            /* Firefox */
+        }
+
+        /* Custom Scrollbar for Code Blocks */
+        pre::-webkit-scrollbar {
+            display: block;
+            height: 8px;
+            background-color: #111827;
+        }
+
+        pre::-webkit-scrollbar-thumb {
+            background-color: #374151;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-950 text-white antialiased selection:bg-blue-500 selection:text-white flex flex-col min-h-screen">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 top-0 start-0 border-b border-gray-800 bg-gray-950/80 backdrop-blur-md">
+        <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between px-6 py-4">
+            <a href="index.html" class="flex items-center space-x-3 rtl:space-x-reverse group">
+                <!-- Logo -->
+                <img src="images/logo.png" alt="Pine Script AI Logo"
+                    class="w-8 h-8 rounded-lg shadow-lg group-hover:shadow-blue-500/20 transition-all">
+                <span class="self-center text-xl font-semibold whitespace-nowrap tracking-tight text-white">Pine Script
+                    AI</span>
+            </a>
+
+            <!-- Navbar Links -->
+            <div class="hidden md:flex items-center space-x-8">
+                <a href="blog.html" class="text-white font-medium transition-colors">Strategies & Blog</a>
+            </div>
+
+            <div class="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
+                <button type="button"
+                    class="text-white bg-blue-600 hover:bg-blue-500 focus:ring-4 focus:outline-none focus:ring-blue-800 font-medium rounded-full text-sm px-6 py-2.5 text-center transition-all duration-300 shadow-lg shadow-blue-900/20 hover:scale-105">
+                    Add to Chrome
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="pt-32 pb-20 flex-grow">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid lg:grid-cols-12 gap-12">
+
+                <!-- Left Column: Article Content (8 cols) -->
+                <article class="lg:col-span-8">
+                    <!-- Breadcrumb -->
+                    <div class="flex items-center space-x-2 text-sm text-gray-500 mb-6">
+                        <a href="index.html" class="hover:text-white transition-colors">Home</a>
+                        <span>/</span>
+                        <a href="blog.html" class="hover:text-white transition-colors">Strategies</a>
+                        <span>/</span>
+                        <span class="text-blue-400">SMC 3-Step Strategy</span>
+                    </div>
+
+                    <h1 class="text-3xl md:text-4xl lg:text-5xl font-extrabold text-white mb-8 leading-tight">
+                        SMC 3-Step Strategy [A+ Setup] <span class="text-blue-500">V6</span>
+                    </h1>
+
+                    <!-- Video Embed -->
+                    <div
+                        class="aspect-video w-full bg-gray-900 rounded-2xl overflow-hidden mb-10 border border-gray-800 shadow-2xl">
+                        <iframe class="w-full h-full" src="https://www.youtube-nocookie.com/embed/vOfJf3FdJT4"
+                            title="YouTube video player" frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            referrerpolicy="no-referrer" allowfullscreen></iframe>
+                    </div>
+
+                    <!-- Article Body -->
+                    <div class="prose prose-invert prose-lg max-w-none">
+                        <p class="lead text-xl text-gray-300 mb-8">
+                            This is a complete Smart Money Concepts (SMC) strategy that combines Daily Bias, Intraday
+                            Structure, and Liquidity Sweeps into a mechanical "A+ Setup".
+                        </p>
+
+                        <h3>Strategy Logic</h3>
+                        <p>
+                            The strategy follows a strict 3-step process to validate entries:
+                        </p>
+                        <ol>
+                            <li><strong>Daily Bias:</strong> Checks if the previous day closed higher/lower than it
+                                opened.</li>
+                            <li><strong>Intraday Structure:</strong> Confirms trend alignment on the M15 timeframe
+                                (Non-Repainting).</li>
+                            <li><strong>Liquidity Sweep:</strong> Waits for a sweep of Asia Session High/Low followed by
+                                a Change of Character (ChoCh).</li>
+                        </ol>
+
+                        <h3>Pine Script V6 Code</h3>
+                        <p>
+                            Copy the code below and paste it into your TradingView Pine Editor.
+                        </p>
+                    </div>
+
+                    <!-- Code Block -->
+                    <div class="mt-8 relative group rounded-xl overflow-hidden border border-gray-800 bg-[#1d1f21]">
+                        <div class="flex justify-between items-center px-4 py-2 bg-gray-900 border-b border-gray-800">
+                            <span class="text-xs font-mono text-gray-400">SMC_3_Step.pine</span>
+                            <button onclick="copyCode()"
+                                class="text-xs bg-gray-800 hover:bg-gray-700 text-gray-300 px-3 py-1.5 rounded transition-colors flex items-center gap-2">
+                                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z">
+                                    </path>
+                                </svg>
+                                Copy Code
+                            </button>
+                        </div>
+                        <pre
+                            class="language-pine p-4 overflow-x-auto text-sm"><code id="strategyCode">//@version=6
+strategy("SMC 3-Step Strategy [A+ Setup] Non-Repainting", overlay=true, initial_capital=10000, default_qty_type=strategy.percent_of_equity, default_qty_value=1, currency=currency.USD)
+
+// =============================================================================
+// 1. INPUTS
+// =============================================================================
+grp_time    = "Session Times (NY UTC-5)"
+asia_sess   = input.session("1900-0000", "Asian Session", group=grp_time) // Pre-London
+killzone    = input.session("0200-1100", "Trading Killzone (Lon/NY)", group=grp_time) // Execution window
+
+grp_struc   = "Structure Settings"
+m15_len     = input.int(5, "M15 Swing Length", minval=1, group=grp_struc, tooltip="Length to define swing points on M15")
+entry_len   = input.int(3, "Entry Chart Swing Length", minval=1, group=grp_struc, tooltip="Length to define ChoCh on current timeframe")
+
+grp_risk    = "Risk Management"
+rr_ratio    = input.float(5.0, "Risk:Reward Ratio", step=0.5, group=grp_risk)
+use_fixed_sl= input.bool(false, "Use Fixed Pips SL?", group=grp_risk)
+sl_pips     = input.float(10.0, "Fixed SL (Pips)", group=grp_risk)
+
+// =============================================================================
+// 2. STEP 1: DAILY BIAS
+// =============================================================================
+// Get Daily Open and Close.
+// We use [1] and lookahead=on to ensure we are referencing the COMPLETED previous day.
+d_open  = request.security(syminfo.tickerid, "D", open[1], lookahead=barmerge.lookahead_on)
+d_close = request.security(syminfo.tickerid, "D", close[1], lookahead=barmerge.lookahead_on)
+
+// Determine Bias
+daily_bullish = d_close > d_open
+daily_bearish = d_close < d_open
+
+// Visuals for Step 1
+plotshape(daily_bullish, "Daily Bull", shape.triangleup, location.top, color.green, size=size.tiny)
+plotshape(daily_bearish, "Daily Bear", shape.triangledown, location.bottom, color.red, size=size.tiny)
+
+// =============================================================================
+// 3. STEP 2: INTRADAY BIAS (M15 STRUCTURE) - NON-REPAINTING
+// =============================================================================
+// Structure calculation function
+calc_structure(len) =>
+    float ph = ta.pivothigh(high, len, len)
+    float pl = ta.pivotlow(low, len, len)
+    
+    var int trend = 0 // 1 = Bullish, -1 = Bearish
+    var float last_ph = high
+    var float last_pl = low
+    
+    if not na(ph)
+        last_ph := ph
+    if not na(pl)
+        last_pl := pl
+        
+    // Break of Structure Logic
+    if close > last_ph
+        trend := 1
+    if close < last_pl
+        trend := -1
+    trend
+
+// Request M15 structure data.
+// CRITICAL FIX: We request 'calc_structure(m15_len)[1]'.
+// The [1] ensures we get the value of the PREVIOUSLY CLOSED M15 bar.
+// This eliminates the repainting risk identified by the AI.
+m15_trend_confirmed = request.security(syminfo.tickerid, "15", calc_structure(m15_len)[1], lookahead=barmerge.lookahead_on)
+
+// Visual verification of Alignment (Daily Bias + Intraday Bias)
+bias_aligned_bull = daily_bullish and m15_trend_confirmed == 1
+bias_aligned_bear = daily_bearish and m15_trend_confirmed == -1
+
+// Background color to show valid trading days/times
+bgcolor(bias_aligned_bull ? color.new(color.green, 90) : na, title="Bullish Alignment Background")
+bgcolor(bias_aligned_bear ? color.new(color.red, 90) : na, title="Bearish Alignment Background")
+
+// =============================================================================
+// 4. STEP 3: LIQUIDITY SWEEP (ASIA SESSION)
+// =============================================================================
+// Define time zone
+t_zone = "America/New_York"
+
+// Check time windows
+in_asia     = time(timeframe.period, asia_sess, t_zone)
+in_killzone = time(timeframe.period, killzone, t_zone)
+
+// Variables to store Asia High/Low
+var float asia_h = na
+var float asia_l = na
+
+// [FIX] Strict boolean check for new day
+bool is_new_day = ta.change(time("D")) != 0
+
+// Reset Asia High/Low at the start of a new day
+if is_new_day
+    asia_h := na
+    asia_l := na
+
+// Track High/Low during Asia Session
+if not na(in_asia)
+    asia_h := na(asia_h) ? high : math.max(asia_h, high)
+    asia_l := na(asia_l) ? low : math.min(asia_l, low)
+
+// Plot Asia Range
+plot(not na(in_asia) or not na(in_killzone) ? asia_h : na, "Asia High", color.red, style=plot.style_linebr)
+plot(not na(in_asia) or not na(in_killzone) ? asia_l : na, "Asia Low", color.green, style=plot.style_linebr)
+
+// Detect Sweep Logic
+// Bullish Setup: Bias is Bullish + Price sweeps BELOW Asia Low
+sweep_low_cond = bias_aligned_bull and not na(in_killzone) and low < asia_l
+// Bearish Setup: Bias is Bearish + Price sweeps ABOVE Asia High
+sweep_high_cond = bias_aligned_bear and not na(in_killzone) and high > asia_h
+
+// State management for Sweep (Latch mechanism)
+var bool swept_asia_low = false
+var bool swept_asia_high = false
+
+if is_new_day
+    swept_asia_low := false
+    swept_asia_high := false
+
+if sweep_low_cond
+    swept_asia_low := true
+    
+if sweep_high_cond
+    swept_asia_high := true
+
+// =============================================================================
+// 5. ENTRY TRIGGER (CHOCH / STRUCTURE SHIFT)
+// =============================================================================
+// Calculate local pivots on the CURRENT timeframe (e.g. M5)
+l_ph = ta.pivothigh(high, entry_len, entry_len)
+l_pl = ta.pivotlow(low, entry_len, entry_len)
+
+var float entry_swing_high = high
+var float entry_swing_low = low
+
+if not na(l_ph)
+    entry_swing_high := l_ph
+if not na(l_pl)
+    entry_swing_low := l_pl
+
+// [FIX] Calculate crossovers globally to ensure consistent execution history
+bull_break_confirmed = ta.crossover(close, entry_swing_high)
+bear_break_confirmed = ta.crossunder(close, entry_swing_low)
+
+// -----------------------------------------------------------------------------
+// LONG ENTRY EXECUTION
+// -----------------------------------------------------------------------------
+// 1. Daily & Intraday Bias are Bullish
+// 2. We have swept the Asia Low
+// 3. We get a Candle Close ABOVE the recent local High (ChoCh)
+long_trigger = bias_aligned_bull and swept_asia_low and bull_break_confirmed and strategy.position_size == 0
+
+if long_trigger
+    // Stop Loss calculation
+    float sl_price = use_fixed_sl ? close - (sl_pips * syminfo.mintick * 10) : entry_swing_low
+    float risk = close - sl_price
+    float tp_price = close + (risk * rr_ratio)
+    
+    if risk > 0
+        strategy.entry("Long A+", strategy.long)
+        strategy.exit("Exit Long", "Long A+", stop=sl_price, limit=tp_price)
+        swept_asia_low := false // Reset flag to prevent reentry on same sweep
+
+// -----------------------------------------------------------------------------
+// SHORT ENTRY EXECUTION
+// -----------------------------------------------------------------------------
+// 1. Daily & Intraday Bias are Bearish
+// 2. We have swept the Asia High
+// 3. We get a Candle Close BELOW the recent local Low (ChoCh)
+short_trigger = bias_aligned_bear and swept_asia_high and bear_break_confirmed and strategy.position_size == 0
+
+if short_trigger
+    // Stop Loss calculation
+    float sl_price = use_fixed_sl ? close + (sl_pips * syminfo.mintick * 10) : entry_swing_high
+    float risk = sl_price - close
+    float tp_price = close - (risk * rr_ratio)
+    
+    if risk > 0
+        strategy.entry("Short A+", strategy.short)
+        strategy.exit("Exit Short", "Short A+", stop=sl_price, limit=tp_price)
+        swept_asia_high := false // Reset flag
+
+// =============================================================================
+// VISUALIZATION
+// =============================================================================
+plot(entry_swing_high, "Entry Structure High", color.new(color.blue, 50))
+plot(entry_swing_low, "Entry Structure Low", color.new(color.blue, 50))
+
+// [FIX] Used named argument 'textcolor' to fix syntax error
+plotshape(long_trigger, "Long Entry", shape.labelup, location.belowbar, color.green, text="BUY", textcolor=color.white)
+plotshape(short_trigger, "Short Entry", shape.labeldown, location.abovebar, color.red, text="SELL", textcolor=color.white)</code></pre>
+                    </div>
+
+                    <div class="prose prose-invert prose-lg max-w-none mt-10">
+                        <h3>How to Optimize This Strategy</h3>
+                        <p>
+                            Raw strategies often fail due to slippage and lack of dynamic risk management. To make this
+                            strategy production-ready:
+                        </p>
+                        <ol>
+                            <li><strong>Add Commission Logic:</strong> Most backtests ignore fees.</li>
+                            <li><strong>Implement Dynamic Stops:</strong> Use ATR-based trailing stops.</li>
+                            <li><strong>Filter Choppy Markets:</strong> Add an ADX or Volume filter.</li>
+                        </ol>
+                        <p>
+                            You can do all of this automatically using our AI Co-pilot.
+                        </p>
+                    </div>
+                </article>
+
+                <!-- Right Sidebar: Sticky Conversion Box (4 cols) -->
+                <aside class="lg:col-span-4 space-y-8">
+
+                    <!-- Sticky Container -->
+                    <div class="sticky top-24 space-y-6">
+
+                        <!-- CTA Card -->
+                        <div
+                            class="p-6 bg-gradient-to-br from-blue-900/40 to-gray-900 border border-blue-500/30 rounded-2xl shadow-xl backdrop-blur-sm">
+                            <div
+                                class="w-12 h-12 bg-blue-600 rounded-lg flex items-center justify-center mb-4 shadow-lg shadow-blue-900/50">
+                                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                                </svg>
+                            </div>
+                            <h3 class="text-xl font-bold text-white mb-2">Fix & Upgrade This Code</h3>
+                            <p class="text-gray-300 text-sm mb-6 leading-relaxed">
+                                Raw code often has errors or outdated syntax. Use our AI Extension to auto-fix bugs and
+                                upgrade to Pine Script V6 instantly.
+                            </p>
+                            <button
+                                class="w-full py-3 px-4 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-xl transition-all shadow-lg shadow-blue-900/30 hover:scale-[1.02] flex items-center justify-center">
+                                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+                                </svg>
+                                Download Extension
+                            </button>
+                            <p class="text-center text-xs text-gray-500 mt-3">Free for Chrome & Brave</p>
+                        </div>
+
+                        <!-- Reality Check Warning -->
+                        <div class="p-6 bg-gray-900/80 border border-red-500/20 rounded-2xl">
+                            <div class="flex items-start space-x-3">
+                                <svg class="w-6 h-6 text-red-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z">
+                                    </path>
+                                </svg>
+                                <div>
+                                    <h4 class="text-white font-bold text-sm mb-1">Warning: Reality Check</h4>
+                                    <p class="text-gray-400 text-xs leading-relaxed">
+                                        This strategy may show unrealistic results without slippage correction. Use
+                                        <strong>Reality Mode™</strong> in the app to see true performance.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </aside>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-950 pt-20 pb-10 border-t border-gray-900">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="flex flex-col md:flex-row justify-between items-center mb-12">
+                <div class="flex items-center space-x-3 mb-6 md:mb-0">
+                    <img src="images/logo.png" alt="Pine Script AI Logo" class="w-10 h-10 rounded-lg shadow-lg">
+                    <span class="text-2xl font-bold text-white tracking-tight">Pine Script AI</span>
+                </div>
+                <div class="flex space-x-8">
+                    <a href="mailto:your@email.com"
+                        class="text-gray-400 hover:text-white transition-colors font-medium">Support</a>
+                    <a href="#" class="text-gray-400 hover:text-white transition-colors font-medium">Install Now</a>
+                </div>
+            </div>
+
+            <div class="border-t border-gray-900 pt-10">
+                <div class="text-sm text-gray-500 mb-8">
+                    <details class="group cursor-pointer">
+                        <summary class="list-none hover:text-gray-300 transition-colors flex items-center font-medium">
+                            <span>Privacy Policy</span>
+                            <svg class="w-4 h-4 ml-2 group-open:rotate-180 transition-transform text-gray-600"
+                                fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </summary>
+                        <div class="mt-4 p-6 bg-gray-900 rounded-xl border border-gray-800">
+                            <p class="leading-relaxed max-w-4xl text-gray-400">
+                                Privacy Policy: Pine Script AI Co-pilot does not store your personal data or your
+                                strategy code on our servers. User inputs are processed via Google Gemini API solely for
+                                the purpose of generating or fixing code. We do not sell or share user data with third
+                                parties. Your API Keys are stored locally on your device using Chrome Storage.
+                            </p>
+                        </div>
+                    </details>
+                </div>
+                <div class="flex flex-col md:flex-row justify-between items-center text-gray-600 text-sm">
+                    <p>&copy; 2025 Pine Script AI. All rights reserved.</p>
+                    <p class="mt-2 md:mt-0">Designed for TradingView Traders</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Prism.js Script -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-pine.min.js"></script>
+
+    <script>
+        function copyCode() {
+            const code = document.getElementById('strategyCode').innerText;
+            navigator.clipboard.writeText(code).then(() => {
+                alert('Code copied to clipboard!');
+            });
+        }
+    </script>
+
+</body>
+
+</html>
